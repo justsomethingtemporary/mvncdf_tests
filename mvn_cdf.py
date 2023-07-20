@@ -18,9 +18,9 @@ with st.echo(code_location='below'):
         p, i = mvn.mvnun(newloc, upp, mu, sigma)
         return p
 
-    dimension = st.slider("Dimension of multivariate gaussian distribution", min_value=1, max_value=500, value=5, step=1)
+    dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 500, 5)
     sigma = make_spd_matrix(n_dim=dimension, random_state=1)
-    max_val = st.slider("Maximum value achieved", min_value=-10, max_value=10, value=0, step=0.01)
+    max_val = st.slider("Maximum value achieved", -10, 10, 0.0)
     
     start_time = time.time()
     p = mvncdf(np.zeros(dimension), sigma, max_val)
