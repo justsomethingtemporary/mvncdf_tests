@@ -1,4 +1,4 @@
-ofrom scipy.stats import mvn
+from scipy.stats import mvn
 import numpy as np
 import time
 from sklearn.datasets import make_spd_matrix
