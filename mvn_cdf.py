@@ -1,4 +1,4 @@
-from scipy.stats import mvn
+ofrom scipy.stats import mvn
 import numpy as np
 import time
 from sklearn.datasets import make_spd_matrix
@@ -25,5 +25,5 @@ with st.echo(code_location='below'):
     start_time = time.time()
     p = mvncdf(np.zeros(dimension), sigma, max_val)
     st.write("Probability of a lower value is", p)
-    st.write("Time to calculate:", (time.time() - start_time()), "seconds")
+    st.write("Time to calculate: %s seconds", (time.time() - start_time()))
     
