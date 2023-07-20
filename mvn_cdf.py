@@ -20,7 +20,7 @@ with st.echo(code_location='below'):
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 500, 500)
     sigma = make_spd_matrix(n_dim=dimension, random_state=1)
-    max_val = st.slider("Maximum value achieved", 0, 100, 1000)
+    max_val = st.slider("Maximum value achieved", 0, 1000, 10)
     
     start_time = time.time()
     p = mvncdf(np.zero(dimension), sigma, max_val)
