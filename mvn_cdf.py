@@ -23,7 +23,7 @@ with st.echo(code_location='below'):
     max_val = st.slider("Maximum value achieved", 0, 10, 0)
     
     start_time = time.time()
-    p = mvncdf(np.zero(dimension), sigma, max_val)
+    p = mvncdf(np.zeros(dimension), sigma, max_val)
     st.write("Probability of a lower value is", p)
     st.write("Time to calculate:", time.time() - start_time(), "seconds")
     
