@@ -24,7 +24,7 @@ with st.echo(code_location='below'):
     
     start_time = time.time()
     p = mvncdf(np.zeros(dimension), sigma, max_val)
-    st.write("Probability of a lower value is", p)
+    st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
     
