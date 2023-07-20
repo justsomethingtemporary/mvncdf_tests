@@ -21,7 +21,7 @@ with st.echo(code_location='below'):
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 500, 5)
     sigma = make_spd_matrix(n_dim=dimension, random_state=1)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
-    maxpts = st.slider("Max number of points in cdf", 1000*dimension, 1000000*dimension, 1000*dimension)
+    maxpts = st.slider("Max number of points multiplier", 1000, 1000000, 1000, 1000)
     
     start_time = time.time()
     p = mvncdf(np.zeros(dimension), sigma, max_val, maxpts)
