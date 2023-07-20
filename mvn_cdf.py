@@ -28,7 +28,7 @@ with st.echo(code_location='below'):
     )
     if option == "Random":
         sigma = make_spd_matrix(n_dim=dimension, random_state=1)
-    else if option == "Identity":
+    elif option == "Identity":
         sigma = np.identity(dimension)
     
     start_time = time.time()
