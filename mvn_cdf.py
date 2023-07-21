@@ -47,9 +47,16 @@ with st.echo(code_location='below'):
         sigma = make_spd_matrix(n_dim=dimension, random_state=1)
     elif option == "Identity":
         sigma = np.identity(dimension)
-    
+
+    st.write("Utilizing Genz's QMC sampling in scipy:)
     start_time = time.time()
     p = mvncdf(np.zeros(dimension), sigma, max_val, maxpts)
+    st.write("Probability of a lower value is", str(p))
+    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+
+    st.write("Utilizing Box-Mueller QMC sampling in botorch")
+    start_time = time.time()
+    p = qmc_box_muller(np.zeros(dimension), sigma, max_val, maxpts)
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
