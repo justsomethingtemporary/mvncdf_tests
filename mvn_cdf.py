@@ -35,9 +35,9 @@ with st.echo(code_location='below'):
                 o += 1
         return i / (i + o)
 
-    dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 500, 5)
+    dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 1000, 5)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
-    maxpts = st.slider("Max number of points multiplier (improve accuracy)", 1000, 1000000, 1000, step=1000)
+    maxpts = st.slider("Max number of points (increase to improve accuracy)", 1000, 1000000, 1000, step=1000)
 
     option = st.selectbox(
         "What type of covariance matrix should be used?",
