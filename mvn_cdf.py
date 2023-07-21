@@ -3,6 +3,8 @@ import numpy as np
 import time
 from sklearn.datasets import make_spd_matrix
 import streamlit as st
+from botorch.sampling import qmc
+import torch
 
 with st.echo(code_location='below'):
     def mvncdf(mu, sigma, max, maxpts):
@@ -17,6 +19,21 @@ with st.echo(code_location='below'):
             )
         p, i = mvn.mvnun(newloc, upp, mu, sigma, maxpts=maxpts*np.shape(mu)[0])
         return p
+
+    def qmc_box_muller(mu, sigma, max):
+        mean = torch.tensor(mu)
+        cov = torch.tensor(sigma)
+        engine = qmc.MultivariateNormalQMCEngine(mean,cov,seed=1)
+        g = torch.empty(mu.shape[0]).fill_(max) # (max,) * mu.shape[0]
+        i = 0
+        o = 0
+        for p, k in enumerate(engine.draw(10**3 * mu.shape[0])):
+            check = k < g
+            if check.all(0,False) == torch.tensor(True):
+                i += 1
+            else:
+                o += 1
+        return i / (i + o)
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 500, 5)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
