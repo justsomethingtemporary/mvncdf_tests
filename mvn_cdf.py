@@ -15,7 +15,7 @@ with st.echo(code_location='below'):
             shape=np.shape(mu)[0],
             fill_value=np.inf,
             )
-        p, i = mvn.mvnun(newloc, upp, mu, sigma, maxpts=maxpts)
+        p, i = mvn.mvnun(newloc, upp, mu, sigma, maxpts=maxpts*np.shape(mu)[0])
         return p
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 500, 5)
