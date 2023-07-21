@@ -20,14 +20,14 @@ with st.echo(code_location='below'):
         p, i = mvn.mvnun(newloc, upp, mu, sigma, maxpts=maxpts*np.shape(mu)[0])
         return p
 
-    def qmc_box_muller(mu, sigma, max):
+    def qmc_box_muller(mu, sigma, max, maxpts):
         mean = torch.tensor(mu)
         cov = torch.tensor(sigma)
         engine = qmc.MultivariateNormalQMCEngine(mean,cov,seed=1)
         g = torch.empty(mu.shape[0]).fill_(max) # (max,) * mu.shape[0]
         i = 0
         o = 0
-        for p, k in enumerate(engine.draw(10**3 * mu.shape[0])):
+        for p, k in enumerate(engine.draw(maxpts * mu.shape[0])):
             check = k < g
             if check.all(0,False) == torch.tensor(True):
                 i += 1
