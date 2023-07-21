@@ -53,6 +53,7 @@ with st.echo(code_location='below'):
     p = mvncdf(np.zeros(dimension), sigma, max_val, maxpts)
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    st.write(s)
 
     st.write("Utilizing Box-Mueller QMC sampling in botorch")
     start_time = time.time()
