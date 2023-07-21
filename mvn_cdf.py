@@ -48,7 +48,7 @@ with st.echo(code_location='below'):
     elif option == "Identity":
         sigma = np.identity(dimension)
 
-    st.write("Utilizing Genz's QMC sampling in scipy:)
+    st.write("Utilizing Genz's QMC sampling in scipy")
     start_time = time.time()
     p = mvncdf(np.zeros(dimension), sigma, max_val, maxpts)
     st.write("Probability of a lower value is", str(p))
