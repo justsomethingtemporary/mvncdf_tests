@@ -17,7 +17,7 @@ with st.echo(code_location='below'):
             shape=np.shape(mu)[0],
             fill_value=np.inf,
             )
-        p, i = mvn.mvnun(newloc, upp, mu, sigma, maxpts=maxpts*np.shape(mu)[0])
+        p, i = mvn.mvnun(newloc, upp, mu, sigma, maxpts=maxpts)
         return p
 
     def qmc_box_muller(mu, sigma, max, maxpts):
@@ -27,7 +27,7 @@ with st.echo(code_location='below'):
         g = torch.empty(mu.shape[0]).fill_(max) # (max,) * mu.shape[0]
         i = 0
         o = 0
-        for p, k in enumerate(engine.draw(maxpts * mu.shape[0])):
+        for p, k in enumerate(engine.draw(maxpts)):
             check = k < g
             if check.all(0,False) == torch.tensor(True):
                 i += 1
