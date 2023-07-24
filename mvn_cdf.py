@@ -62,7 +62,7 @@ with st.echo(code_location='below'):
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
 
-    st.write("Utilizing Box-Mueller QMC sampling in botorch")
+    st.write("Utilizing Box-Mueller transformed Sobol QMC sampling in botorch")
     start_time = time.time()
     p = qmc_box_muller(np.zeros(dimension), sigma, max_val, maxpts)
     st.write("Probability of a lower value is", str(p))
