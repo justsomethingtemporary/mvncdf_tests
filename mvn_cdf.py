@@ -24,6 +24,12 @@ with st.echo(code_location='below'):
         mean = torch.tensor(mu)
         cov = torch.tensor(sigma)
         engine = qmc.MultivariateNormalQMCEngine(mean,cov,seed=1)
+        samples = engine.draw(1000 * mu.shape[0])
+        dimensions = samples.size()    
+        row_check = torch.sum(samples < max, dim = 1)
+        in_pts = torch.sum(row_check == dimensions[1], dim = 0)
+        return in_pts.item()/dimensions[0]
+        """
         g = torch.empty(mu.shape[0]).fill_(max) # (max,) * mu.shape[0]
         i = 0
         o = 0
@@ -34,6 +40,7 @@ with st.echo(code_location='below'):
             else:
                 o += 1
         return i / (i + o)
+        """
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 1000, 5)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
