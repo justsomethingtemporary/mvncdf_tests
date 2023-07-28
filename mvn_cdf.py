@@ -46,12 +46,9 @@ with st.echo(code_location='below'):
         """
     def independent(mu, sigma, max):
         eigenvalues, eigenvectors = eigh(sigma)
-        start = np.repeat(max, mu.shape[0])
-        alt = np.matmul(eigenvectors, start)
-        alt = [abs(i) for i in alt]
         prob_cdf = 1
         for i in range(mu.shape[0]):
-            prob_cdf = prob_cdf * norm.cdf(alt[i], mu[i], eigenvalues[i])
+            prob_cdf = prob_cdf * norm.cdf(max, mu[i], eigenvalues[i])
         return prob_cdf
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 1000, 5)
