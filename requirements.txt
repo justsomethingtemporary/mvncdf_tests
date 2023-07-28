@@ -2,4 +2,4 @@ scipy
 scikit-learn
 botorch
 streamlit
-torch
+pytorch
