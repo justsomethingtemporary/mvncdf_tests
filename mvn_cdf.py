@@ -44,12 +44,18 @@ with st.echo(code_location='below'):
                 o += 1
         return i / (i + o)
         """
-    def independent(mu, sigma, max):
+    def split(mu, sigma, max):
         eigenvalues, eigenvectors = eigh(sigma)
         prob_cdf = 1
         for i in range(mu.shape[0]):
             prob_cdf = prob_cdf * norm.cdf(max, mu[i], eigenvalues[i])
         return prob_cdf
+
+    def variance_only(mu, sigma, max, maxpts):
+        return qmc_box_muller(mu, np.diag(np.diagonal(sigma)), max, maxpts)
+
+    def eigenvalues_only(mu, sigma, max, maxpts):
+        return qmc_box_muller(mu, np.diag(eigh(sigma, eigvals_only=True), max, maxpts)
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 1000, 5)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
@@ -80,7 +86,21 @@ with st.echo(code_location='below'):
 
     st.write("Sepparating multivariate normal distribution into single dimensional problems evaluated with scipy norm.cdf")
     start_time = time.time()
-    p = independent(np.zeros(dimension), sigma, max_val)
+    p = split(np.zeros(dimension), sigma, max_val)
+    st.write("Probability of a lower value is", str(p))
+    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    st.write(s)
+
+    st.write("Assumption of independence between experiments")
+    start_time = time.time()
+    p = split(np.zeros(dimension), sigma, max_val, maxpts)
+    st.write("Probability of a lower value is", str(p))
+    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    st.write(s)
+
+    st.write("Assumption of independence taking eigenvalues")
+    start_time = time.time()
+    p = split(np.zeros(dimension), sigma, max_val, maxpts)
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
