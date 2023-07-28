@@ -55,7 +55,7 @@ with st.echo(code_location='below'):
         return qmc_box_muller(mu, np.diag(np.diagonal(sigma)), max, maxpts)
         
     def eigenvalues_only(mu, sigma, max, maxpts):
-        return qmc_box_muller(mu, np.diag(eigh(sigma, eigvals_only=True), max, maxpts)
+        return qmc_box_muller(mu, np.diag(eigh(sigma, eigvals_only=True)), max, maxpts)
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 1000, 5)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
