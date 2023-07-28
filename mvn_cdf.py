@@ -1,4 +1,6 @@
 from scipy.stats import mvn
+from scipy.stats import norm
+from scipy.linalg import eigh
 import numpy as np
 import time
 from sklearn.datasets import make_spd_matrix
@@ -41,6 +43,15 @@ with st.echo(code_location='below'):
                 o += 1
         return i / (i + o)
         """
+    def independent(mu, sigma, max):
+        eigenvalues, eigenvectors = eigh(sigma)
+        start = np.repeat(max, mu.shape[0])
+        alt = np.matmul(eigenvectors, start)
+        alt = [abs(i) for i in alt]
+        prob_cdf = 1
+        for i in range(mu.shape[0]):
+            prob_cdf = prob_cdf * norm.cdf(alt[i], mu[i], eigenvalues[i])
+        return prob_cdf
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 1000, 5)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
@@ -65,6 +76,13 @@ with st.echo(code_location='below'):
     st.write("Utilizing Box-Mueller transformed Sobol QMC sampling in botorch")
     start_time = time.time()
     p = qmc_box_muller(np.zeros(dimension), sigma, max_val, maxpts)
+    st.write("Probability of a lower value is", str(p))
+    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    st.write(s)
+
+    st.write("Sepparating multivariate normal distribution into single dimensional problems evaluated with scipy norm.cdf")
+    start_time = time.time()
+    p = independent(np.zeros(dimension), sigma, max_val)
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
