@@ -3,7 +3,7 @@ from scipy.stats import norm
 from scipy.linalg import eigh
 import numpy as np
 import time
-import torch
+import pytorch as torch
 from sklearn.datasets import make_spd_matrix
 import streamlit as st
 from botorch.sampling import qmc
