@@ -3,10 +3,11 @@ from scipy.stats import norm
 from scipy.linalg import eigh
 import numpy as np
 import time
+import torch
 from sklearn.datasets import make_spd_matrix
 import streamlit as st
 from botorch.sampling import qmc
-import torch
+
 
 with st.echo(code_location='below'):
     def mvncdf(mu, sigma, max, maxpts):
