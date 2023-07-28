@@ -53,7 +53,7 @@ with st.echo(code_location='below'):
 
     def variance_only(mu, sigma, max, maxpts):
         return qmc_box_muller(mu, np.diag(np.diagonal(sigma)), max, maxpts)
-
+        
     def eigenvalues_only(mu, sigma, max, maxpts):
         return qmc_box_muller(mu, np.diag(eigh(sigma, eigvals_only=True), max, maxpts)
 
