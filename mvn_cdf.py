@@ -105,21 +105,19 @@ with st.echo(code_location='below'):
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
     
-    """
-    st.write("Assumption of independence between experiments using qmc")
-    start_time = time.time()
-    p = variance_only(np.zeros(dimension), sigma, max_val, maxpts)
-    st.write("Probability of a lower value is", str(p))
-    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
-    st.write(s)
-
-    st.write("Assumption of independence taking eigenvalues using qmc")
-    start_time = time.time()
-    p = eigenvalues_only(np.zeros(dimension), sigma, max_val, maxpts)
-    st.write("Probability of a lower value is", str(p))
-    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
-    st.write(s)
-    """
+    # st.write("Assumption of independence between experiments using qmc")
+    # start_time = time.time()
+    # p = variance_only(np.zeros(dimension), sigma, max_val, maxpts)
+    # st.write("Probability of a lower value is", str(p))
+    # s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    # st.write(s)
+    #
+    # st.write("Assumption of independence taking eigenvalues using qmc")
+    # start_time = time.time()
+    # p = eigenvalues_only(np.zeros(dimension), sigma, max_val, maxpts)
+    # st.write("Probability of a lower value is", str(p))
+    # s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    # st.write(s)
     
     st.write("Assumption of independence using decomposition")
     start_time = time.time()
