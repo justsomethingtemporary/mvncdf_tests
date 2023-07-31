@@ -98,13 +98,14 @@ with st.echo(code_location='below'):
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
 
-    st.write("Sepparating multivariate normal distribution into single dimensional problems evaluated with scipy norm.cdf")
+    st.write("Eigenvalue decomposition into univariate normal distributions")
     start_time = time.time()
     p = split(np.zeros(dimension), sigma, max_val)
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
-
+    
+    """
     st.write("Assumption of independence between experiments using qmc")
     start_time = time.time()
     p = variance_only(np.zeros(dimension), sigma, max_val, maxpts)
@@ -118,6 +119,7 @@ with st.echo(code_location='below'):
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
+    """
     
     st.write("Assumption of independence using decomposition")
     start_time = time.time()
