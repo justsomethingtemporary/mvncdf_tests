@@ -8,6 +8,8 @@ from sklearn.datasets import make_spd_matrix
 import streamlit as st
 from botorch.sampling import qmc
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 with st.echo(code_location='below'):
     def mvncdf(mu, sigma, max, maxpts):
@@ -46,16 +48,28 @@ with st.echo(code_location='below'):
         """
     def split(mu, sigma, max):
         eigenvalues, eigenvectors = eigh(sigma)
-        prob_cdf = 1
-        for i in range(mu.shape[0]):
-            prob_cdf = prob_cdf * norm.cdf(max, mu[i], eigenvalues[i])
-        return prob_cdf
+        eigvec_t = np.transpose(eigenvectors)
+        altstart = np.matmul(eigvec_t, np.repeat(max, mu.shape[0]) - mu)
+        bound = np.matmul(eigvec_t, np.repeat(-50000, mu.shape[0]))
+        alt = []
+        for i in range(0, mu.shape[0]):
+            if altstart[i] > bound[i]:
+                alt.append(altstart[i])
+            else:
+                alt.append(abs(altstart[i]))
+        return np.prod(norm.cdf(alt, 0, eigenvalues))
 
     def variance_only(mu, sigma, max, maxpts):
         return qmc_box_muller(mu, np.diag(np.diagonal(sigma)), max, maxpts)
         
     def eigenvalues_only(mu, sigma, max, maxpts):
         return qmc_box_muller(mu, np.diag(eigh(sigma, eigvals_only=True)), max, maxpts)
+    
+    def variance_only_decomposition(mu, sigma, max):
+        return np.prod(norm.cdf(max, mu, [np.sqrt(i) for i in np.diagonal(sigma)]))
+    
+    def eigenvalues_only_decomposition(mu, sigma, max):
+        return np.prod(norm.cdf(max, mu, [np.sqrt(i) for i in eigh(sigma, eigvals_only=True)]))
 
     dimension = st.slider("Dimension of multivariate gaussian distribution", 1, 1000, 5)
     max_val = st.slider("Maximum value achieved", -10.0, 10.0, 0.0)
@@ -91,17 +105,30 @@ with st.echo(code_location='below'):
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
 
-    st.write("Assumption of independence between experiments")
+    st.write("Assumption of independence between experiments using qmc")
     start_time = time.time()
     p = variance_only(np.zeros(dimension), sigma, max_val, maxpts)
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
 
-    st.write("Assumption of independence taking eigenvalues")
+    st.write("Assumption of independence taking eigenvalues using qmc")
     start_time = time.time()
     p = eigenvalues_only(np.zeros(dimension), sigma, max_val, maxpts)
     st.write("Probability of a lower value is", str(p))
     s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
     st.write(s)
     
+    st.write("Assumption of independence using decomposition")
+    start_time = time.time()
+    p = variance_only_decomposition(np.zeros(dimension), sigma, max_val)
+    st.write("Probability of a lower value is", str(p))
+    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    st.write(s)
+    
+    st.write("Assumption of independence taking eigenvalues using decomposition")
+    start_time = time.time()
+    p = eigenvalues_only_decomposition(np.zeros(dimension), sigma, max_val)
+    st.write("Probability of a lower value is", str(p))
+    s = "Time to calculate: " + str(time.time() - start_time) + " seconds"
+    st.write(s)
